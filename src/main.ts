@@ -28,9 +28,10 @@ async function fetchUrl(url:string) {
 let map = new L.Map('map', {
   center: new L.LatLng(48.3072, 14.2857),
   zoom: 12,
+  tap:false
 });
 
-const panControl = L.control.scale({position: 'topright'});
+const panControl = L.control.scale({position: 'bottomright'});
 map.addControl(panControl);
 
 
@@ -168,7 +169,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
 
 
   //@ts-ignore
-  let legend = L.control({position: 'bottomright'});
+  let legend = L.control({position: 'bottomleft'});
          //@ts-ignore
   legend.onAdd=(map:L.Map)=>{
       var div=L.DomUtil.create('div','legend');
@@ -317,7 +318,7 @@ addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
     
   },
   {
-      collapsed:false//http:leafletjs.com/reference-1.3.0.html#control-layers-collapsed
+      collapsed:true//http:leafletjs.com/reference-1.3.0.html#control-layers-collapsed
   }
   )
 
