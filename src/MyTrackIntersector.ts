@@ -1,5 +1,7 @@
 import * as L from 'leaflet';
+     //@ts-ignore
 import * as GPX from 'leaflet-gpx'
+     //@ts-ignore
 import * as toGeoJSON from '@tmcw/togeojson'
 import * as turf from '@turf/turf'
 
@@ -19,10 +21,10 @@ export class MyTrackInterSector  {
 
 
     analyse(){
-
+       //@ts-ignore
         this.geoShapes.features.forEach((p, i) => {
             let line:any =this.geoTrack.features[0].geometry;
-
+     //@ts-ignore
             let intersectionPoints = turf.lineIntersect(line, p.geometry);
 
             if (intersectionPoints.features.length > 0) {
@@ -51,7 +53,7 @@ export class MyTrackInterSector  {
                         "weight": 5,
                         "opacity": 0.65
                     };
-
+                    //@ts-ignore
                     intersectionPointsArray.forEach(function(ft, ind) {
 
                         if (ind % 2 === 0 && (ind + 1) < intersectionPointsArray.length) {
@@ -63,6 +65,7 @@ export class MyTrackInterSector  {
                             let tmpfeature = turf.feature(segment,{
                                 style:myStyle2
                             });
+                                 //@ts-ignore
                             this.shapedTrack['Features'].push(tmpfeature);
 
 

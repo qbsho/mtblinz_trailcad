@@ -2,25 +2,26 @@ import './style.css'
 import * as L from 'leaflet';
 import 'leaflet-gpx';
 import { MyWMSLayer } from './MyWMSLayer'
-import * as turf from '@turf/turf'
-import * as GPX from 'leaflet-gpx'
+
+
 
 
 //just for testing
 //import gpxUrl from './gpx/P4_Gravelrunde.gpx'
 //import geoJson from './kat/pfenning_kat.json'
 import municipal from './assets/kat/Oberoesterreich_BEV_VGD_50_LAM.json'
-import { feature, FeatureCollection } from '@turf/helpers';
-import { MyTrackInterSector } from './MyTrackIntersector';
 
 
 
+
+/*
 
 async function fetchUrl(url:string) {
   const response = await fetch(url);
   const gpx = await response.json();
   return gpx;
 }
+*/
 
 
 
@@ -73,7 +74,7 @@ const stamen_terrain = L.tileLayer("http://stamen-tiles-{s}.a.ssl.fastly.net/ter
   subdomains: ["a", "b", "c"],
   attribution: `Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.`
 })
-
+/*
 let stravaCookies = new Map<string,string>([
   ["CloudFront-Signature", "crMlJZqZxDbfo0wihnESQc5jbCUOOqcpvrdsQriRcMQRFbK9bULgJDSpVchsUnHDClQG16Chmd~tQ6SqdAQNUTmzPLIfRmseORDJcHKhGulBAX0wkmLWBz0id76v6W0UHbAk3tjrR89jaE2wZk5lOImH90hd5hs~JV-63cXl8Bvib9XJrCY5Va7EUSz00wv1TPw9guRNs6wmBbiWN0uqrQbycejL3e-44~b18S6Hbp61LaeTxsCEZgmXVzSXioIcY6Edj7VoVngxh2jx~IRxt9GC0fDE0h2hTSardcnOwptAm~0jV4KuYMRt1PfglftDqJ4YbcFK3wgSjt2j-IowEA__~tQ6SqdAQNUTmzPLIfRmseORDJcHKhGulBAX0wkmLWBz0id76v6W0UHbAk3tjrR89jaE2wZk5lOImH90hd5hs~JV-63cXl8Bvib9XJrCY5Va7EUSz00wv1TPw9guRNs6wmBbiWN0uqrQbycejL3e-44~b18S6Hbp61LaeTxsCEZgmXVzSXioIcY6Edj7VoVngxh2jx~IRxt9GC0fDE0h2hTSardcnOwptAm~0jV4KuYMRt1PfglftDqJ4YbcFK3wgSjt2j-IowEA__"],
   ["CloudFront-Key-Pair-Id", "APKAIDPUN4QMG7VUQPSA"],
@@ -87,6 +88,7 @@ let url:string ="https://heatmap-external-{s}.strava.com/tiles-auth/ride/hot/{z}
 const strava_heatmap = L.tileLayer(url, {
 
 });
+*/
 const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
   {
     layers: 'KAT_DKM_GST-NFL',
@@ -113,11 +115,6 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
     ["Kirchschlag bei Linz","#FF9272"],
     ]);
 
-
-  interface GKZColor {
-    gkz:string,
-    color:string
-  }
 
      //@ts-ignore
   const filteredMunicipal:FeatureCollection =  municipal.features.filter(x => Array.from( nbLinz.keys()).includes(x.properties.PG));
@@ -172,6 +169,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
 
   //@ts-ignore
   let legend = L.control({position: 'bottomright'});
+         //@ts-ignore
   legend.onAdd=(map:L.Map)=>{
       var div=L.DomUtil.create('div','legend');
     
@@ -255,7 +253,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
    let sterngartlOverlay:L.LayerGroup = new L.LayerGroup();
    let linzOverlay:L.LayerGroup = new L.LayerGroup();
    let steyreggOverlay:L.LayerGroup = new L.LayerGroup();
-   let mtbLinzOverlay:L.LayerGroup = new L.LayerGroup();
+   //let mtbLinzOverlay:L.LayerGroup = new L.LayerGroup();
    let unofficialOverlay:L.LayerGroup = new L.LayerGroup();
 
 
@@ -279,20 +277,22 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
         }
       } 
         ).on('loaded', function(e) {
-    
+          totalDistance=+e.target.get_distance();
+          e.target.bindPopup(e.target.get_name()).openPopup();
+
       });
       tmpGpx.addTo(overlay);
-      totalDistance=+tmpGpx.get_distance();
     });
     return totalDistance;
   };
 
-  let granitlandKM = addGPXLayer(gpx_granitland,"#7EB5D6",granitlandOverlay);
-  let kmSterngartl = addGPXLayer(gpx_sterngartl,"#006db3",sterngartlOverlay);
-  let kmLinz = addGPXLayer(gpx_linz,"#63ccff",linzOverlay);
-  let kmSteyregg = addGPXLayer(gpx_steyregg,"#039be5",steyreggOverlay);
+addGPXLayer(gpx_granitland,"#7EB5D6",granitlandOverlay);
+addGPXLayer(gpx_sterngartl,"#006db3",sterngartlOverlay);
+addGPXLayer(gpx_linz,"#63ccff",linzOverlay);
+addGPXLayer(gpx_steyregg,"#039be5",steyreggOverlay);
  // let mtbLinz = addGPXLayer(gpx_mtblinz,"#7EB5D6",mtbLinzOverlay);
-  let kmUnofficial = addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
+addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
+  
 
   /* end presentation part */
 
