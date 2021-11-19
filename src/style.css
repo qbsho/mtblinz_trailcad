@@ -7,3 +7,8 @@ body {
     width: 100%;
     height: 100vh;
 }
+
+.legend {
+    background-color: #e7ecef;
+    opacity: 0.8;
+}

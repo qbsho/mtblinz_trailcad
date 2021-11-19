@@ -27,8 +27,7 @@ async function fetchUrl(url:string) {
 
 let map = new L.Map('map', {
   center: new L.LatLng(48.3072, 14.2857),
-  zoom: 12,
-  tap:false
+  zoom: 12
 });
 
 const panControl = L.control.scale({position: 'bottomright'});
@@ -110,7 +109,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
     ["Altenberg bei Linz","#008080"],
     ["Luftenberg an der Donau","#FF5733"],
     ["Puchenau","#C70039"],
-    ["Wilhering","#900C3F"],
+    ["Wilhering","#b6ccfe"],
     ["Engerwitzdorf","#FFD448"],
     ["Gramastetten","#FFC300"],
     ["Kirchschlag bei Linz","#FF9272"],
@@ -267,7 +266,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
         async: true,
         polyline_options: {
           color: colorCode,
-          opacity: 0.75,
+          opacity: 0.85,
           weight: 2,
           lineCap: 'round'
         },
@@ -278,7 +277,7 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
         }
       } 
         ).on('loaded', function(e) {
-          totalDistance=+e.target.get_distance();
+          totalDistance+=e.target.get_distance();
           e.target.bindPopup(e.target.get_name()).openPopup();
 
       });
@@ -287,10 +286,13 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
     return totalDistance;
   };
 
-addGPXLayer(gpx_granitland,"#7EB5D6",granitlandOverlay);
-addGPXLayer(gpx_sterngartl,"#006db3",sterngartlOverlay);
-addGPXLayer(gpx_linz,"#63ccff",linzOverlay);
-addGPXLayer(gpx_steyregg,"#039be5",steyreggOverlay);
+let distances = new Map<string,number>();
+distances.set("Granitland",addGPXLayer(gpx_granitland,"#219ebc",granitlandOverlay));
+distances.set("Sterngartl",addGPXLayer(gpx_sterngartl,"#045174",sterngartlOverlay));
+distances.set("Linz",addGPXLayer(gpx_linz,"#fb8500",linzOverlay));
+distances.set("Steyregg",addGPXLayer(gpx_steyregg,"#ffb703",steyreggOverlay));
+distances.set("Linz gewachsen",addGPXLayer(gpx_established,"#039be5",unofficialOverlay));
+
  // let mtbLinz = addGPXLayer(gpx_mtblinz,"#7EB5D6",mtbLinzOverlay);
 addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
   
@@ -302,14 +304,14 @@ addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
       "Geoland Basemap":geolandbasemap, 
       "BM Schummerung": geolandbasegelaende,
       "BM Fläche":bmapoberflaeche,
-      "Terr": stamen_terrain,
+      "Terrain": stamen_terrain,
       "Grau":bmapgrau, 
       "HIDDPI": bmaphidpi, 
       "Orthophoto": bmapothofoto30cm,
       "DKM": bmaDKM},
                                     {
       "Granitland":granitlandOverlay,
-      "Linz'":linzOverlay,
+      "Linz":linzOverlay,
       "Sterngartl":sterngartlOverlay,
       "Steyregg":steyreggOverlay,
       "Gewachsene":unofficialOverlay,
