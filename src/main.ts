@@ -1,6 +1,7 @@
 import './style.css'
 import * as L from 'leaflet';
 import 'leaflet-gpx';
+import 'leaflet.markercluster'
 import { MyWMSLayer } from './MyWMSLayer'
 
 
@@ -255,15 +256,30 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
       "./gpx/established/strava.segments.11869706.Oberbairing-Zaun.gpx",
       "./gpx/established/strava.segments.17510659.Vertikal-zur-PEB.gpx",
       "./gpx/established/strava.segments.23625916.Baumslalom-Trail.gpx",
-      "./gpx/established/strava.segments.24403041.nach-Wurzeloarsch-bis-Aichberg-owi.gpx"
+      "./gpx/established/strava.segments.24403041.nach-Wurzeloarsch-bis-Aichberg-owi.gpx",
+      "./gpx/established/k1.gpx",
+      "./gpx/established/k2.gpx",
+      "./gpx/established/k3.gpx",
+      "./gpx/established/pipi.gpx",
+      "./gpx/established/Koglerau_D_rnberg.gpx",
+      "./gpx/established/Koglerau_Hausrunde.gpx",
+      "./gpx/established/Koglerau_mit_K_glerhof.gpx",
+      "./gpx/established/Koglerau_Oheim.gpx",
+      "./gpx/established/Koglerau_Puchenau.gpx"
     ];
+
+    let gpx_mtblinz:string[] =[
+      "./gpx/official/steyregg/mtb_linz_pfenning.gpx"
+    ]
     
    let granitlandOverlay:L.LayerGroup = new L.LayerGroup();
    let sterngartlOverlay:L.LayerGroup = new L.LayerGroup();
    let linzOverlay:L.LayerGroup = new L.LayerGroup();
    let steyreggOverlay:L.LayerGroup = new L.LayerGroup();
-   //let mtbLinzOverlay:L.LayerGroup = new L.LayerGroup();
+   let mtbLinzOverlay:L.LayerGroup = new L.LayerGroup();
    let unofficialOverlay:L.LayerGroup = new L.LayerGroup();
+
+
 
 
 
@@ -301,12 +317,24 @@ distances.set("Sterngartl",addGPXLayer(gpx_sterngartl,"#045174",sterngartlOverla
 distances.set("Linz",addGPXLayer(gpx_linz,"#fb8500",linzOverlay));
 distances.set("Steyregg",addGPXLayer(gpx_steyregg,"#ffb703",steyreggOverlay));
 distances.set("Linz gewachsen",addGPXLayer(gpx_established,"#039be5",unofficialOverlay));
+distances.set("Steyregg (neu)",addGPXLayer(gpx_mtblinz,"#026899",mtbLinzOverlay));
 
  // let mtbLinz = addGPXLayer(gpx_mtblinz,"#7EB5D6",mtbLinzOverlay);
 addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
   
 
   /* end presentation part */
+
+/*
+  let markers = L.markerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false
+  });
+  markers.addLayer(L.marker(new L.LatLng(48.3072, 14.2857)));
+  markers.addLayer(L.marker(new L.LatLng(48.3022, 14.2857)));
+  map.addLayer(markers);
+*/
 
   let myMapControl= L.control.layers({//http://leafletjs.com/reference-1.3.0.html#control-layers-l-control-layers
       "Openstreetmap":osm, 
@@ -324,6 +352,7 @@ addGPXLayer(gpx_established,"#ad1457",unofficialOverlay);
       "Sterngartl":sterngartlOverlay,
       "Steyregg":steyreggOverlay,
       "Gewachsene":unofficialOverlay,
+      "MTB Linz": mtbLinzOverlay,
       "Gemeinde Overlay" :municalLayer,
       "basemap.at Overlay": bmapoverlay,
       "Strava Heatmap":strava_heatmap
