@@ -93,7 +93,8 @@ const strava_heatmap = L.tileLayer(url, {
 
 
 const strava_heatmap = L.tileLayer("https://strava-heatmap-proxy.mtblinz.workers.dev/global/orange/{z}/{x}/{y}@2x.png", {
-  attribution: `Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.`
+  attribution: `Map tiles by <a href="http://strava.com">Strava Heatmap</a>`,
+  maxNativeZoom:14
 });
 
 
@@ -103,7 +104,8 @@ const bmaDKM = new MyWMSLayer("https://data.bev.gv.at/geoserver/BEVdataKAT/ows",
   {
     layers: 'KAT_DKM_GST-NFL',
     transparent: true,
-    format: 'image/png'
+    format: 'image/png',
+    minNativeZoom:14
   });
 
 
